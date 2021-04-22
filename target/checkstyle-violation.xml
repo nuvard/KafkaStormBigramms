@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.2">
+<file name="/home/nastya/bigdata/storm/examples/storm-kafka-client-examples/src/main/java/org/apache/storm/kafka/streams/WordCountToBolt.java">
+</file>
+<file name="/home/nastya/bigdata/storm/examples/storm-kafka-client-examples/src/main/java/org/apache/storm/kafka/bolt/WordCountBolt.java">
+</file>
+<file name="/home/nastya/bigdata/storm/examples/storm-kafka-client-examples/src/main/java/org/apache/storm/kafka/bolt/KafkaProducerTopology.java">
+</file>
+<file name="/home/nastya/bigdata/storm/examples/storm-kafka-client-examples/src/main/java/org/apache/storm/kafka/trident/TridentKafkaConsumerTopology.java">
+</file>
+<file name="/home/nastya/bigdata/storm/examples/storm-kafka-client-examples/src/main/java/org/apache/storm/kafka/spout/KafkaRedisBigramCountTopology.java">
+</file>
+</checkstyle>
