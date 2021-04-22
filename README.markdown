@@ -1,5 +1,5 @@
 
-This module is build on top of standart storm-kafka-client spout and Trident usage. Kafka is Producer for this topology, and Storm gives bolts for splitting sentences, count words, saving result in redis.
+This module is build on top of standart storm-kafka-client spout and Trident usage. Kafka is Producer of data for this topology, and Storm gives bolts for splitting sentences, collect and count bigramms in text, saving result in redis. 
 
 ## Usage
 Start ZooKeeper from its directory
