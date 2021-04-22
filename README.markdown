@@ -1,9 +1,9 @@
 
-This module is build on top of standart storm-kafka-client spout and Trident usage. Kafka is Producer of data for this topology, and Storm gives bolts for splitting sentences, collect and count bigramms in text, saving result in redis. 
+This module is build on top of standart storm-kafka-client spout and Trident usage. Kafka is Producer of data for this topology, and Storm gives bolts for splitting sentences, collect and count bigramms in text, saving result in Redis. 
 
 ## Usage
 Start ZooKeeper from its directory
-`./bin/zkServer.sh start`
+```./bin/zkServer.sh start```
  You need to set up config of Storm (storm.yaml) as:
 
 ```
@@ -21,10 +21,12 @@ Start ZooKeeper from its directory
 ./bin/storm ui
 
 ```
-Now you are able to examine topologies in UI at localhost:8082
+Now you are able to examine topologies in UI at `localhost:8082`
 
 Start Kafka server from Kafka directory with default config
+```
 bin/kafka-server-start.sh config/server.properties
+```
 
 Create topic bigram-topic
 ```
