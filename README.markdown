@@ -1,10 +1,49 @@
+
+This module is build on top of standart storm-kafka-client spout and Trident usage. Kafka is Producer for this topology, and Storm gives bolts for splitting sentences, count words, saving result in redis.
+
 ## Usage
-This module contains example topologies demonstrating storm-kafka-client spout and Trident usage. Please ensure you have a Kafka instance running at localhost:9092 before you deploy the topologies.
+Start ZooKeeper from its directory
+`./bin/zkServer.sh start`
+ You need to set up config of Storm (storm.yaml) as:
 
-The module is built by running `mvn clean package -Dstorm.kafka.client.version=<kafka_broker_version>`, where the property should match the Kafka version you want to use. For example, for Kafka 0.11.0.0 the `<kafka_broker_version>` would be `0.11.0.0`. This will generate the `target/storm-kafka-client-examples-VERSION.jar` file. The jar contains all dependencies and can be submitted to Storm via the Storm CLI, e.g.
 ```
-storm jar storm-kafka-client-examples-2.0.0-SNAPSHOT.jar org.apache.storm.kafka.spout.KafkaSpoutTopologyMainNamedTopics
+ storm.zookeeper.servers:
+ - "localhost"
+ nimbus.seeds: ["localhost"]
+ ui.port: 8082
+ ```
+ 
+ In different terminal windows start all needed Storm services.
+ 
 ```
-will submit the topologies set up by KafkaSpoutTopologyMainNamedTopics to Storm.
+./bin/storm nimbus
+./bin/storm supervisor
+./bin/storm ui
 
-Note that this example produces a jar containing all dependencies for ease of use. When you deploy your own topologies in a production environment you may want to reduce the jar size by extracting some dependencies (e.g. `org.apache.kafka:kafka-clients`) from the jar. You can do this by setting the dependencies you don't want to include in the jars to `provided` scope, and then using the `--artifacts` flag for the `storm jar` command to fetch the dependencies when submitting the topology. See the [CLI documentation](http://storm.apache.org/releases/2.0.0-SNAPSHOT/Command-line-client.html) for syntax.
+```
+Now you are able to examine topologies in UI at localhost:8082
+
+Start Kafka server from Kafka directory with default config
+bin/kafka-server-start.sh config/server.properties
+
+Create topic bigram-topic
+```
+bin/kafka-topics.sh --create --topic bigram-topic --bootstrap-server localhost:9092 
+```
+Build and submit topology (all patch from examples/storm-kafka-client-examples)
+```
+mvn clean package -Dstorm.kafka.client.version=2.7.0
+
+../../bin/storm jar target/storm-kafka-client-examples-2.2.0.jar org.apache.storm.kafka.spout.KafkaRedisBigramCountTopology bigrams
+```
+Now run producer with some text, for example, with file input
+```
+bin/kafka-console-producer.sh --topic bigram-topic --bootstrap-server localhost:9092 < ../guards.txt
+```
+After all, you can check result in Redis
+```
+redis-cli
+
+hgetall wordCountHashSet
+```
+
